@@ -1,0 +1,9 @@
+[submodule "deps/hopscotch-map"]
+	path = deps/hopscotch-map
+	url = https://github.com/Tessil/hopscotch-map.git
+[submodule "deps/fadec"]
+	path = deps/fadec
+	url = https://github.com/aengelke/fadec.git
+[submodule "deps/mimalloc"]
+	path = deps/mimalloc
+	url = https://github.com/microsoft/mimalloc.git

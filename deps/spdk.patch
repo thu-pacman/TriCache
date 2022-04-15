@@ -1,0 +1,43 @@
+# For SPDK 21.04
+Submodule dpdk contains modified content
+diff --git a/dpdk/config/rte_config.h b/dpdk/config/rte_config.h
+index a0b5160ff2..3811242cc2 100644
+--- a/dpdk/config/rte_config.h
++++ b/dpdk/config/rte_config.h
+@@ -31,8 +31,8 @@
+ /* EAL defines */
+ #define RTE_MAX_HEAPS 32
+ #define RTE_MAX_MEMSEG_LISTS 128
+-#define RTE_MAX_MEMSEG_PER_LIST 8192
+-#define RTE_MAX_MEM_MB_PER_LIST 32768
++#define RTE_MAX_MEMSEG_PER_LIST 32768
++#define RTE_MAX_MEM_MB_PER_LIST 65536
+ #define RTE_MAX_MEMSEG_PER_TYPE 32768
+ #define RTE_MAX_MEM_MB_PER_TYPE 65536
+ #define RTE_MAX_MEMZONE 2560
+diff --git a/dpdkbuild/Makefile b/dpdkbuild/Makefile
+index b540d2fa0..f51a6fefb 100644
+--- a/dpdkbuild/Makefile
++++ b/dpdkbuild/Makefile
+@@ -81,6 +81,8 @@ with e.g. `meson build --cross-file config/arm/arm64_armv8_linux_gcc`)
+ endif
+ endif
+ 
++DPDK_OPTS += -Dmax_lcores=256 -Dmax_numa_nodes=8
++
+ DPDK_CFLAGS += -fPIC
+ 
+ ifeq ($(CONFIG_WERROR),y)
+diff --git a/module/Makefile b/module/Makefile
+index 98b4b7757..f2dcb1062 100644
+--- a/module/Makefile
++++ b/module/Makefile
+@@ -73,7 +73,7 @@ $(SOCK_MODULES_PKGCONFIG):
+ 	$(Q)$(SPDK_ROOT_DIR)/scripts/pc_modules.sh sock "$(SOCK_MODULES_LIST:%=spdk_%)" > $@
+ 
+ $(SYSLIBS_PKGCONFIG):
+-	$(Q)$(SPDK_ROOT_DIR)/scripts/pc_libs.sh "" "$(PRIVATE_SYSLIBS)" System spdk_syslibs > $@
++	$(Q)$(SPDK_ROOT_DIR)/scripts/pc_libs.sh "$(PRIVATE_SYSLIBS)" "" System spdk_syslibs > $@
+ 
+ all: $(DIRS-y) $(MODULES_PKGCONFIG)
+ 
