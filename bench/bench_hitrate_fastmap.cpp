@@ -156,7 +156,7 @@ int main(int argc, char **argv)
         }
     }
 
-    system("sh /home/jiguanglizipao/kexec.sh");
+    system("sh $TRICACHE_ROOT/scripts/kexec.sh");
     std::this_thread::sleep_for(std::chrono::hours(1));
 
     return 0;

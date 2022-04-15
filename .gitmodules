@@ -7,3 +7,24 @@
 [submodule "deps/mimalloc"]
 	path = deps/mimalloc
 	url = https://github.com/microsoft/mimalloc.git
+[submodule "ae-projects/ligra"]
+	path = ae-projects/ligra
+	url = https://github.com/TriCache-OSDI-AE/ligra.git
+[submodule "ae-projects/FlashX"]
+	path = ae-projects/FlashX
+	url = https://github.com/TriCache-OSDI-AE/FlashX.git
+[submodule "ae-projects/LiveGraph-snb"]
+	path = ae-projects/LiveGraph-snb
+	url = https://github.com/TriCache-OSDI-AE/LiveGraph-snb.git
+[submodule "ae-projects/ldbc_snb_implementations"]
+	path = ae-projects/ldbc_snb_implementations
+	url = https://github.com/TriCache-OSDI-AE/ldbc_snb_implementations.git
+[submodule "ae-projects/terasort_spark"]
+	path = ae-projects/terasort_spark
+	url = https://github.com/TriCache-OSDI-AE/terasort_spark.git
+[submodule "ae-projects/rocksdb"]
+	path = ae-projects/rocksdb
+	url = https://github.com/TriCache-OSDI-AE/rocksdb.git
+[submodule "ae-projects/FastMap"]
+	path = ae-projects/FastMap
+	url = https://github.com/TriCache-OSDI-AE/FastMap.git

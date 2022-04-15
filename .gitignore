@@ -13,3 +13,5 @@ build
 .clangd
 .cache
 compile_commands.json
+__pycache__
+/results_*
