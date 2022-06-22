@@ -5,12 +5,15 @@ import numpy as np
 
 def read_result(filename, result_re):
     found_result = False
-    with open(filename, "r") as f:
-        lines = f.readlines()
-        for line in lines:
-            if result_re.match(line):
-                result = float(result_re.match(line).group(1))
-                found_result = True
+    try:
+        with open(filename, "r") as f:
+            lines = f.readlines()
+            for line in lines:
+                if result_re.match(line):
+                    result = float(result_re.match(line).group(1))
+                    found_result = True
+    except:
+        pass
     return result if found_result else np.inf
 
 ligra_re = re.compile(r"^Running time : (.*)$")
@@ -32,7 +35,7 @@ prfile_re = re.compile(r"""# Profile of Direct SATC:
 #     miss cycles: (\d+)""")
 
 if __name__ == '__main__':
-    
+
     result_dir = pathlib.Path(sys.argv[1]) / 'results_breakdown'
 
     filelist = lambda x: [
@@ -51,7 +54,7 @@ if __name__ == '__main__':
     for name, matcher, prefix in configs:
         result = list(map(lambda x: read_result(result_dir / x, matcher), filelist(prefix)))
         print(f"For {name}, slowdown of disabling direct SATC is {result[1] / result[0]:.2f}, disabling private SATC is {result[2] / result[0]:.2f}, disabling direct and private SATC is {result[3] / result[0]:.2f}")
-    
+
     print()
 
     for name, _, prefix in configs:
@@ -75,7 +78,7 @@ if __name__ == '__main__':
         data = [
             ("Direct SATC", direct_mis_num / direct_acc_num, (direct_acc_cyc - direct_mis_cyc) / (direct_acc_num - direct_mis_num)),
             ("Private SATC", private_mis_num / private_acc_num, (private_acc_cyc - private_mis_cyc) / (private_acc_num - private_mis_num)),
-            ("Shared Cache", shared_mis_num / shared_acc_num, (shared_acc_cyc - shared_mis_cyc) / (shared_acc_num - shared_mis_num)),
+            ("Shared Cache", shared_mis_num / shared_acc_num, (shared_acc_cyc - shared_mis_cyc) / shared_acc_num),
         ]
 
         print(f"Case: {name}")

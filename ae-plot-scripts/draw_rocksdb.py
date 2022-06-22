@@ -61,7 +61,7 @@ def draw_rocksdb(data):
     ax.set_ylabel("Throughput")
     ax.set_ylim(1, 7)
     ax.set_yticks(range(1, 8))
-    ax.set_yticklabels([0, "1E2", "1E3", "1E4", "1E5", "1E6", "1E7"])
+    ax.set_yticklabels(["1E1", "1E2", "1E3", "1E4", "1E5", "1E6", "1E7"])
 
     num_type = len(labels)
     legend_handles = [
@@ -121,7 +121,7 @@ if __name__ == "__main__":
         for p in c["dir"].glob("*.txt"):
             match = c["name_extrator"].match(str(p))
             _, size = match.group(1), match.group(2)
-            
+
             time_extrator = c["result_extrator"]
 
             with open(p.resolve(), "r") as f:
@@ -129,7 +129,7 @@ if __name__ == "__main__":
                 for line in lines:
                     if time_extrator.match(line):
                         result = float(time_extrator.match(line).group(1))
-            
+
             results[0, sizes.index(size)] = result
             result = 0
 
@@ -142,7 +142,7 @@ if __name__ == "__main__":
         plot_results[name] = results
 
     # print(plot_results)
-    
+
     for i, s in enumerate(sizes):
         b = plot_results[BLOCK][0, i]
         m = plot_results[PLAIN_MMAP][0, i]

@@ -95,7 +95,7 @@ do
     done
 done
 
-exec
+exit
 
 export CACHE_MALLOC_THRESHOLD=$(expr 128 \* 1024 \* 1024)
 

@@ -114,7 +114,7 @@ def draw_terasort(data):
         axes[k].set_ylabel("Time (s)")
         axes[k].set_ylim(0, 4)
         axes[k].set_yticks(range(0, 5))
-        axes[k].set_yticklabels([0, "1E1", "1E2", "1E3", "1E4"])
+        axes[k].set_yticklabels(["1E0", "1E1", "1E2", "1E3", "1E4"])
         # # axes[k].set_title(case_labels[k])
         axes[k].set_xlabel(case_labels[k])
 

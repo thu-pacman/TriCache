@@ -3,18 +3,18 @@ from common import *
 SWAPPING = "Ligra (Swapping)"
 FLASHGRAPH = "FlashGraph"
 TRICACHE = "Ligra (TriCache)"
-    
+
 sizes = ["512", "256", "128", "64", "32", "16"]
 exps = ["PageRank", "WCC", "BFS"]
 
 def draw_graph_processing(data):
 
-    dat_speedup_swap = np.zeros([3, 6]) + 2
-    dat_speedup_flash = np.log10(data[SWAPPING] / data[FLASHGRAPH]) + 2
-    dat_speedup_cache = np.log10(data[SWAPPING] / data[TRICACHE]) + 2
+    dat_swap = np.log10(data[SWAPPING])
+    dat_flash = np.log10(data[FLASHGRAPH])
+    dat_cache = np.log10(data[TRICACHE])
 
-    dat = [dat_speedup_swap, dat_speedup_flash, dat_speedup_cache]
-    labels = [SWAPPING, FLASHGRAPH, TRICACHE]
+    dat = [dat_flash, dat_swap, dat_cache]
+    labels = [FLASHGRAPH, SWAPPING, TRICACHE]
 
     sz = (16, 2.5)
     figsz = {"figure.figsize": sz}
@@ -31,7 +31,7 @@ def draw_graph_processing(data):
     bar_width, bar_gap = 0.6, 0
     group_width = (bar_width + bar_gap) * num_bar_per_group - bar_gap
     group_gap = 1
-    case = ["PageRank", "WCC", "BFS"]
+    case = ["PageRank", "Weakly Connected Components", "Breadth-First Search"]
 
     for i in range(num_case):
         for j in range(num_group_per_case):
@@ -64,13 +64,17 @@ def draw_graph_processing(data):
                     )
         axes[i].set_ylim(0, 4)
         axes[i].set_yticks(range(5))
-        axes[i].set_yticklabels([0, 0.1, 1, 10, 100])
+        axes[i].set_yticklabels(["1E0", "1E1", "1E2", "1E3", "1E4"])
+
+        if i == 0:
+            axes[i].set_ylabel("Computation Time (s)")
 
         axes[i].set_xlim(0, (group_width + group_gap) * num_group_per_case + group_gap)
         xticks = [
             group_gap + (group_width + group_gap) * x + group_width / 2
             for x in range(num_group_per_case)
         ]
+
         axes[i].set_xticks(xticks)
         axes[i].set_xticklabels(["512GB", "256GB", "128GB", "64GB", "32GB", "16GB"])
         axes[i].set_xlabel(case[i])
@@ -141,7 +145,7 @@ if __name__ == "__main__":
                 exp = "PageRank"
             if "CC" in exp:
                 exp = "WCC"
-            
+
             time_extrator = c["result_extrator"]
             time_reducer = c["result_reducer"]
             with open(p.resolve(), "r") as f:
@@ -154,7 +158,7 @@ if __name__ == "__main__":
                     result = np.nan
                 else:
                     result = reduce(time_reducer, temp, c["result_intilizer"])
-            
+
             results[exps.index(exp), sizes.index(size)] = result
             result = np.nan
 
@@ -192,7 +196,7 @@ if __name__ == "__main__":
     print("With 256GB memory (out of core), TriCache's speed-up over FlashGraph  is {:.2f}x for PageRank, {:.2f}x for WCC, and {:.2f}x for BFS.".format(*list(plot_results[FLASHGRAPH][:,sizes.index("256")] / plot_results[TRICACHE][:,sizes.index("256")])))
 
     print()
-    
+
     print("With 64GB memory (out of core), TriCache's speed-up over OS Swapping is {:.2f}x for PageRank, {:.2f}x for WCC, and {:.2f}x for BFS.".format(*list(plot_results[SWAPPING][:,sizes.index("64")] / plot_results[TRICACHE][:,sizes.index("64")])))
     print("With 64GB memory (out of core), TriCache's speed-up over FlashGraph  is {:.2f}x for PageRank, {:.2f}x for WCC, and {:.2f}x for BFS.".format(*list(plot_results[FLASHGRAPH][:,sizes.index("64")] / plot_results[TRICACHE][:,sizes.index("64")])))
 

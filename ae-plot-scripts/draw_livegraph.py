@@ -62,7 +62,7 @@ def draw_livegraph(data):
         axes[k].set_ylabel("Throughput")
         axes[k].set_ylim(1, 5)
         axes[k].set_yticks(range(1, 6))
-        axes[k].set_yticklabels([0, "1E2", "1E3", "1E4", "1E5"])
+        axes[k].set_yticklabels(["1E1", "1E2", "1E3", "1E4", "1E5"])
         # axes[k].set_title(case_labels[k])
         axes[k].set_xlabel(case_labels[k])
 
@@ -119,7 +119,7 @@ if __name__ == "__main__":
             exp, size = match.group(1), match.group(2)
 
             exp = exp.upper()
-            
+
             time_extrator = c["result_extrator"]
 
             with open(p.resolve(), "r") as f:
@@ -127,7 +127,7 @@ if __name__ == "__main__":
                 for line in lines:
                     if time_extrator.match(line):
                         result = float(time_extrator.match(line).group(1))
-            
+
             results[exps.index(exp), sizes.index(size)] = result
             result = 0
 
