@@ -15,6 +15,8 @@ export CACHE_DISABLE_PARALLEL_READ_WRITE=true
 
 mkdir -p results_rocksdb_cache
 
+sudo mkdir -p /mnt/data/TriCache/temp
+
 export CACHE_NUM_CLIENTS=256
 export REQUESTS=100000000
 export THREADS=238

@@ -15,6 +15,8 @@ export CACHE_DISABLE_PARALLEL_READ_WRITE=true
 
 mkdir -p results_small
 
+sudo mkdir -p /mnt/data/TriCache/temp
+
 export CACHE_NUM_CLIENTS=1024
 export REQUESTS=100000000
 export THREADS=940
