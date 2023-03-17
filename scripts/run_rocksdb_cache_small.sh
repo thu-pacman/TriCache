@@ -25,7 +25,7 @@ export REQUESTS_PER_THREAD=$(expr $REQUESTS \/ \( $THREADS - 2 \* $BACKGROUND \)
 for MEM_GB in 64
 do
     export CACHE_PHY_SIZE=$(expr \( $MEM_GB \/ 16 \* 6 \) \* 1024 \* 1024 \* 1024)
-    export MEMORY=$(expr \( $MEM_GB \/ 16 \* 10 \) \* 1024 \* 1024 \* 1024)
+    export MEMORY=$(expr \( $MEM_GB \) \* 1024 \* 1024 \* 1024)
     echo $MEMORY | sudo tee /sys/fs/cgroup/limit/memory.max
 
     sudo rsync -avhP --delete /mnt/data/TriCache/rocksdb/2000M_plain_4/ /mnt/data/TriCache/temp/2000M_plain_run

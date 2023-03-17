@@ -308,18 +308,18 @@ namespace scache
                 int fd = open(paths[i].c_str(), O_RDWR | O_CREAT | O_DIRECT, 0644);
                 if (fd < 0)
                     throw std::runtime_error("Open File Error");
-                struct stat st;
-                fstat(fd, &st);
-                auto size = st.st_size;
-                const size_t flush_size = 4096;
-                auto data = mmap_alloc(flush_size);
-                for (size_t j = (size + flush_size - 1) / flush_size;
-                     j * flush_size < partitioner.num_blocks(i) * CACHE_PAGE_SIZE; j++)
-                {
-                    if (pwrite(fd, data, flush_size, j * flush_size) != flush_size)
-                        throw std::runtime_error("Init File Error");
-                }
-                mmap_free(data, flush_size);
+                // struct stat st;
+                // fstat(fd, &st);
+                // auto size = st.st_size;
+                // const size_t flush_size = 4096;
+                // auto data = mmap_alloc(flush_size);
+                // for (size_t j = (size + flush_size - 1) / flush_size;
+                //      j * flush_size < partitioner.num_blocks(i) * CACHE_PAGE_SIZE; j++)
+                // {
+                //     if (pwrite(fd, data, flush_size, j * flush_size) != flush_size)
+                //         throw std::runtime_error("Init File Error");
+                // }
+                // mmap_free(data, flush_size);
 
                 fds.emplace_back(fd);
             }

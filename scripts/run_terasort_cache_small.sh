@@ -22,30 +22,30 @@ do
     for MEM_GB in 64
     do
         export CACHE_PHY_SIZE=$(expr \( $MEM_GB \/ 8 \* 5 \) \* 1024 \* 1024 \* 1024)
-        export MEMORY=$(expr \( $MEM_GB \/ 8 \* 3 \) \* 1024 \* 1024 \* 1024)
+        export MEMORY=$(expr \( $MEM_GB \) \* 1024 \* 1024 \* 1024)
         echo $MEMORY | sudo tee /sys/fs/cgroup/limit/memory.max
 
         sudo -E LD_LIBRARY_PATH="$LD_LIBRARY_PATH" numactl -i all -C !$CACHE_16_SERVER_CORES \
-            stdbuf -oL /usr/bin/time -v $TRICACHE_ROOT/build/terasort_manual /mnt/data/TriCache/terasort/terasort-150G $THREADS \
+            stdbuf -oL /usr/bin/time -v $TRICACHE_ROOT/build/terasort_manual /mnt/data/TriCache/terasort/terasort-400G $THREADS \
             2>&1 | tee results_small/terasort_manual_cache.txt
     done
 done
 
 export CACHE_MALLOC_THRESHOLD=$(expr 128 \* 1024 \* 1024)
 
-for THREADS in 480
+for THREADS in 960
 do
     export CACHE_NUM_CLIENTS=$(expr $THREADS \+ 16 \* 4)
     export OMP_NUM_THREADS=$THREADS
 
     for MEM_GB in 64
     do
-        export CACHE_PHY_SIZE=$(expr \( $MEM_GB \/ 8 \* 6 \) \* 1024 \* 1024 \* 1024)
-        export MEMORY=$(expr \( $MEM_GB \/ 8 \* 2 \) \* 1024 \* 1024 \* 1024)
+        export CACHE_PHY_SIZE=$(expr \( $MEM_GB \/ 8 \* 5 \) \* 1024 \* 1024 \* 1024)
+        export MEMORY=$(expr \( $MEM_GB \) \* 1024 \* 1024 \* 1024)
         echo $MEMORY | sudo tee /sys/fs/cgroup/limit/memory.max
 
         sudo -E LD_LIBRARY_PATH="$LD_LIBRARY_PATH" numactl -i all -C !$CACHE_16_SERVER_CORES \
-            stdbuf -oL /usr/bin/time -v $TRICACHE_ROOT/build/terasort_gnu /mnt/data/TriCache/terasort/terasort-150G $THREADS \
+            stdbuf -oL /usr/bin/time -v $TRICACHE_ROOT/build/terasort_gnu /mnt/data/TriCache/terasort/terasort-400G $THREADS \
             2>&1 | tee results_small/terasort_gnu_cache.txt
     done
 done

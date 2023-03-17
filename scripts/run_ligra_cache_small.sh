@@ -15,22 +15,21 @@ function set_schedule {
 
 mkdir -p results_small
 
-export CACHE_MALLOC_THRESHOLD=$(expr 4294967296 \* 4)
-set_schedule "dynamic,128"
+export CACHE_MALLOC_THRESHOLD=$(expr 4294967296 \* 2)
+set_schedule "static,128"
 for threads in 960
 do
     export CACHE_NUM_CLIENTS=$threads
     export OMP_NUM_THREADS=$threads
 
-    for i in 128
+    for i in 64
     do
-        echo $(expr \( $i \/ 8 + 48 \) \* 1024 \* 1024 \* 1024) | sudo tee /sys/fs/cgroup/limit/memory.max
-        export CACHE_PHY_SIZE=$(expr \( $i - $i \/ 8 - 48 \) \* 1024 \* 1024 \* 1024 )
+        echo $(expr \( $i \) \* 1024 \* 1024 \* 1024) | sudo tee /sys/fs/cgroup/limit/memory.max
+        export CACHE_PHY_SIZE=$(expr \( $i - $i \/ 8 - 27 \) \* 1024 \* 1024 \* 1024 )
         echo $CACHE_PHY_SIZE $CACHE_VIRT_SIZE
 
         sudo -E LD_LIBRARY_PATH="$LD_LIBRARY_PATH" numactl -i all -C !$CACHE_16_SERVER_CORES \
             stdbuf -oL /usr/bin/time -v $TRICACHE_ROOT/ae-projects/ligra/apps/PageRankDelta-cache -maxiters 20 -b /mnt/data/TriCache/ligra/uk-2014 2>&1 | tee results_small/PageRank_ligra_cache.txt
-
     done
 done
 

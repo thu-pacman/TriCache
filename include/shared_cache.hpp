@@ -234,7 +234,7 @@ namespace scache
             auto create_context = [&](size_t sid) FORCE_INLINE
             {
                 auto virt_io_backend =
-                    std::make_shared<SPDK>(server_paths[sid], partitioner.num_blocks(sid), num_ppages_per_partition);
+                    std::make_shared<AIO>(server_paths[sid], partitioner.num_blocks(sid), num_ppages_per_partition);
                 auto phy_memory_pool =
                     std::make_shared<MemoryPool>(num_ppages_per_partition, virt_io_backend->get_buffer());
                 phy_memory_pools[sid] = phy_memory_pool.get();
