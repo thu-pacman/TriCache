@@ -78,6 +78,7 @@ namespace scache
             }
 
             client_toggles = (bool *)mmap_alloc(num_clients * MAX_THREADS);
+            memset(client_toggles, 0, num_clients * MAX_THREADS);
         };
 
         ~PartitionServer()
